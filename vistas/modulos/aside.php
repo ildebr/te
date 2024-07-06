@@ -1,18 +1,36 @@
 <style>
     .sidebar{
         display: inline;
-    position: absolute;
     z-index: 1;
+    padding-top: 1rem;
+    background: white;
+    height: 100%;
+    padding: 1rem;
+    }
+
+    .center{
+        text-align: center;
+    }
+
+    li:hover{
+        background: #efefef;
     }
 </style>
 
 
-<aside id="sidebar" class="sidebar">
+<aside id="sidebar p-3" class="sidebar">
+    <p class="center h4">Bienvenido, 
+        <?php
+            echo $_SESSION['nombre'];
+        ?>
+    </p>
+<p class='center h6'>
 <?php
-    echo $_SESSION['permisos'];
+    echo 'Rol: '. $_SESSION['permisos'];
 ?>
+</p>
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+    <ul class="sidebar-nav navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar-nav">
 
       <li class="nav-item">
         <a class="nav-link " onclick="CargarContenido('vistas/landing.php','content-wrapper')">

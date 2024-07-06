@@ -112,7 +112,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
+    <style>
+        body > div.wrapper{
+            display:grid;
+            grid-template-columns: 1fr 3fr;
+        }
 
+        body > div.wrapper .sidebar{
+
+        }
+
+        .wrapper{
+            max-width: 1080px;
+            padding: 1rem;
+            margin: 0 auto;
+        }
+
+        body{
+            background: whitesmoke;
+            height: 100%;
+            min-height: 100vh;
+        }
+
+        .wrapper{
+            min-height: 100vh;
+        }
+
+    </style>
 
 </head>
 
@@ -127,7 +153,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             include "vistas/modulos/aside.php";
             ?>
 
-            <div class="content-wrapper">
+            <div class="content-wrapper p-3">
             
 
                 <?php include "vistas/landing.php" ?>

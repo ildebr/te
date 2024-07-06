@@ -2,6 +2,14 @@
     .crisoles_contenedor{
         display: grid;
         grid-template-columns:1fr 1fr 1fr 1fr;
+        gap: .5rem;
+    }
+
+    .crisol_elemento{
+        background: #dedede;
+        border-radius: 5px;
+        padding:.5rem;
+        text-align:center;
     }
 </style>
 
@@ -16,6 +24,7 @@
 
 <div class="helper">
     
+    <h3 class='h3'>Listado de Crisoles</h3>
 
     <div class="crisoles_contenedor">
 
@@ -46,10 +55,14 @@
                 console.log(respuesta)
                 console.log('here')
 
+                
+
                 respuesta.forEach((resp)=>{
-                    $('.crisoles_contenedor').append(`<div>
-                    ${resp.nombre_identificador} estado:${resp.estado}
-                    <a href="detalleCrisol.php?crisol=${resp.id}">Detalle</a>
+                    $('.crisoles_contenedor').append(`<div class="crisol_elemento">
+                    <img src="vistas/assets/imagenes/crisol.png"
+                    <p class='h5'> <strong> ${resp.nombre_identificador} </strong> </p>
+                    <p> Estado: ${establecerEstado(resp.estado)} </p>
+                    <a class='btn btn-primary' href="detalleCrisol.php?crisol=${resp.id}">Detalle</a>
                     
                     </div>`)
                 })
@@ -76,6 +89,22 @@
         //     });
         // })
     })
+
+    function establecerEstado(estado){
+        let m = 'no definido'
+
+        if(estado == 'd' ){
+            m = 'Disponible'
+        }
+        if(estado == 'm' ){
+            m = 'Mantenimiento'
+        }
+        if(estado == 'l' ){
+            m = 'Linea'
+        }
+
+        return m
+    }
 
     
 

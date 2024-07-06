@@ -16,63 +16,67 @@
 </div>
 <div class="card-body">
 <form method="POST" class="registrar-usuario-form" >
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">Nombre</div>
         <div class="col-9">
-            <input type="text" name="nombre" placeholder="nombre">
+            <input type="text" name="nombre" placeholder="nombre" class="form-control">
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">Apellido</div>
         <div class="col-9">
-            <input type="text" name="apellido" placeholder="apellido">
+            <input type="text" name="apellido" placeholder="apellido" class="form-control">
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">cedula</div>
         <div class="col-9">
-            <input type="number" name="cedula" placeholder="cedula">
+            <input type="number" name="cedula" placeholder="cedula" class="form-control">
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">correo</div>
         <div class="col-9">
-            <input type="email" name="correo" placeholder="correo">
+            <input type="email" name="correo" placeholder="correo" class="form-control">
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">telefono</div>
         <div class="col-9">
-            <input type="text" name="telefono" placeholder="telefono">
+            <input type="text" name="telefono" placeholder="telefono" class="form-control">
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">turno</div>
         <div class="col-9">
-            <input type="text" name="turno" placeholder="turno">
+            <input type="text" name="turno" placeholder="turno" class="form-control">
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">rol</div>
         <div class="col-9">
-            <input type="text" name="rol" placeholder="rol">
+            <!-- <input type="text" name="rol" placeholder="rol"> -->
+            <select class='form-control' name="rol" id="rol">
+                <option value="administrador">Administrador</option>
+                <option value="usuario">Usuario</option>
+            </select>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row form-group mt-2">
         <div class="col-3">contrasena</div>
         <div class="col-9">
-            <input type="text" name="contrasena" placeholder="contrasena">
+            <input type="text" name="contrasena" placeholder="contrasena" class='form-control'>
         </div>
     </div>
 
-    <button class="" type="submit" >Register</button>
+    <button class="btn btn-primary" type="submit" >Registrar usuario</button>
 </div>
 </form>
 </div>
