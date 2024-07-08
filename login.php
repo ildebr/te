@@ -40,12 +40,65 @@
     }
 ?>
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesion</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 <main class="login">
     <h2>INICIA SESIÓN</h2>
-<form method="POST">
+<!-- <form method="POST">
     <input type="text" name="correo" placeholder="CORREO">
     <input type="password" name="clave" placeholder="CONTRASEÑA">
     <input type="submit" class="btn">
-</form>
+</form> -->
     <p>¿No tienes una cuenta? <a href="signup.php">Registrate</a></p>
 </main>
+
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="vistas/assets/imagenes/draw2.webp"
+          class="img-fluid" alt="Sample image">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <form  method="POST">
+          <!-- Email input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text"  name="correo" id="form3Example3" class="form-control form-control-lg"
+              placeholder="Ingresa un correo valido" />
+            <label class="form-label" for="form3Example3">Correo</label>
+          </div>
+
+          <!-- Password input -->
+          <div data-mdb-input-init class="form-outline mb-3">
+            <input type="password"  name="clave" id="form3Example4" class="form-control form-control-lg"
+              placeholder="Ingresa una contraseña" />
+            <label class="form-label" for="form3Example4">Contraseña</label>
+          </div>
+
+
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+          <input type="submit" class="btn btn-primary btn-lg"
+          style="padding-left: 2.5rem; padding-right: 2.5rem;" value='Ingresar'>
+          </div>
+          
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+    
+</body>
+</html>
+
+

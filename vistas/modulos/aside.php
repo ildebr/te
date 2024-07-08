@@ -1,9 +1,8 @@
 <style>
-    .sidebar{
+    .sidebarasi{
         display: inline;
     z-index: 1;
     padding-top: 1rem;
-    background: white;
     height: 100%;
     padding: 1rem;
     }
@@ -13,12 +12,20 @@
     }
 
     li:hover{
-        background: #efefef;
+        background: #1d50b8;
     }
+
+    .navbar-nav a.nav-link{
+        font-weight: 700;
+    }
+
+    /* .nav-item:hover{
+        background
+    } */
 </style>
 
 
-<aside id="sidebar p-3" class="sidebar">
+<aside id="sidebar p-3" class="sidebarasi">
     <p class="center h4">Bienvenido, 
         <?php
             echo $_SESSION['nombre'];
@@ -30,7 +37,7 @@
 ?>
 </p>
 
-    <ul class="sidebar-nav navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar-nav">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="sidebar-nav">
 
       <li class="nav-item">
         <a class="nav-link " onclick="CargarContenido('vistas/landing.php','content-wrapper')">
@@ -65,6 +72,27 @@
                 <a class="nav-link " onclick="CargarContenido('vistas/listarUsuarios.php','content-wrapper')">
                     <i class="bi bi-grid"></i>
                     <span>Listar Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " onclick="CargarContenido('vistas/reporte.php','content-wrapper')">
+                    <i class="bi bi-grid"></i>
+                    <span>Reporte</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cerrarsesion.php">
+                    <i class="bi bi-grid"></i>
+                    <span>Cerrar sesion</span>
+                </a>
+            </li>
+        <?php
+      }else if($_SESSION['permisos'] == 'usuario'){
+        ?> 
+            <li class="nav-item">
+                <a class="nav-link" href="cerrarsesion.php">
+                    <i class="bi bi-grid"></i>
+                    <span>Cerrar sesion</span>
                 </a>
             </li>
         <?php

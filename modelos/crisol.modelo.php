@@ -136,8 +136,23 @@ class CrisolModelo{
         // return $peso + 10;
     }
 
+    static public function mdlActualizarProcesoDisponible($id_proceso, $peso, $recuperado){
+        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso, material_recuperado = :recuperado WHERE id_proceso = :id_proceso");
+        $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
+        $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
+        $stmt->bindParam(":recuperado", $recuperado, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        return Conexion::conectar()->lastInsertId();
+    }
+
     static public function mdlActualizarProcesoPesoFinal($id_proceso, $peso){
         $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso WHERE id_proceso = :id_proceso");
+        $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
+        $stmt -> execute();
+
+        return Conexion::conectar()->lastInsertId();
     }
 
 

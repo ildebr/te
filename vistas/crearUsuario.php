@@ -100,10 +100,10 @@
         data.append('rol', $('[name=rol]').val())
         data.append('contrasena', $('[name=contrasena]').val())
 
-        console.log(data)
-        for (var pair of data.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-        }
+        // console.log(data)
+        // for (var pair of data.entries()) {
+        // console.log(pair[0]+ ', ' + pair[1]);
+        // }
 
         $.ajax({
             url: 'ajax/usuario.ajax.php',
@@ -120,8 +120,10 @@
                 console.log('done')
                 console.log(respuesta)
 
+
                 if(respuesta[0].error == true){
                     toastr.error(respuesta[0].error_msg, 'Error')
+                    console.log('here')
                 }else{
                     toastr.success('Usuario Creado exitosamente', 'Exito')
                     CargarContenido('vistas/landing.php','content-wrapper')
@@ -131,7 +133,7 @@
             },
             error: function(error){
                 console.log(error)
-                toastr.error('')
+                toastr.error(error, "Error")
             }
         })
     })

@@ -87,13 +87,6 @@
                 })
 
 
-
-                if(respuesta[0].error == true){
-                    toastr.error(respuesta[0].error_msg, 'Error')
-                }else{
-                    toastr.success('Usuario Creado exitosamente', 'Exito')
-                }
-
                 
             },
             error: function(error){

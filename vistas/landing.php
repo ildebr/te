@@ -100,7 +100,13 @@
             m = 'Mantenimiento'
         }
         if(estado == 'l' ){
-            m = 'Linea'
+            m = 'En linea'
+        }
+        if(estado == 'r' ){
+            m = 'Recibido'
+        }
+        if(estado == 's' ){
+            m = 'Mantenimiento mayor'
         }
 
         return m
