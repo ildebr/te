@@ -180,9 +180,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <h2>Registar el peso con el que llego el crisol y enviar a mantenimiento</h2>
             <p>Expresa el peso en kilos y fracciones con punto.</p>
             <!-- <form id="peso_recibido"> -->
-                <input type="text" id="peso_linea" name="peso" placeholder="Peso Recibido">
+            <input type="text" class='peso' id="peso_linea" name="peso" placeholder="Peso Recibido">
 
-                <button class="actualizar btn btn-primary" data-etapa="mantenimiento">ENVIAR A MANTENIMIENTO</button>
+            <button class="actualizar btn btn-primary" data-etapa="mantenimiento">ENVIAR A MANTENIMIENTO</button>
             <!-- </form> -->
         </div>
 
@@ -203,7 +203,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <h3 id="destino_crisol"></h3>
 
-            <input type="text" class="peso_mantenimiento" placeholder="Peso a la llegada de mantenimiento" name="peso">
+            <input type="text" class="peso_mantenimiento peso" id="postmantenimiento_input" placeholder="Peso a la llegada de mantenimiento" name="peso">
             <button class="actualizar btn btn-primary" data-etapa="postmantenmiento">CONFIRMAR</button>
         </div>
         
@@ -225,8 +225,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <h3 id="destino_crisol"></h3>
 
-            <input type="text" class="peso_mantenimiento" placeholder="Peso a la llegada de mantenimiento" name="peso">
-            <button class="actualizar btn btn-primary" data-etapa="postmantenmiento">CONFIRMAR</button>
+            <input type="text" class="peso_mantenimiento peso" id="mantenimientosuperior_input" placeholder="Peso a la llegada de mantenimiento" name="peso">
+            <button class="actualizar btn btn-primary" data-etapa="mantenimientosuperior">CONFIRMAR</button>
         </div>
 
         
@@ -350,6 +350,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
             // data.append('peso_linea', peso)
 
 
+        }else if(etapa == 'postmantenmiento'){
+            if($('#postmantenmiento_input').val() == ''){
+                toastr.error('El input no puede estar vacio', 'Error')
+                return
+            }
+
+            let peso = $('#postmantenmiento_input').val()
+
+            if(esSoloNumeroYFraccion.test(peso) == false){
+                toastr.error('Solo se permiten numeros enteros o fracciones con punto ej: 1000.5', 'Error')
+                return
+            }
+
+
+            data.append('peso', $('#postmantenmiento_input').val())
+            console.log($('#postmantenmiento_input').val(), 'all')
+
+            // data.append('peso_linea', peso)
+
+
+        }else if(etapa == 'mantenimientosuperior'){
+            if($('#mantenimientosuperior_input').val() == ''){
+                toastr.error('El input no puede estar vacio', 'Error')
+                return
+            }
+
+            let peso = $('#mantenimientosuperior_input').val()
+
+            if(esSoloNumeroYFraccion.test(peso) == false){
+                toastr.error('Solo se permiten numeros enteros o fracciones con punto ej: 1000.5', 'Error')
+                return
+            }
+
+
+            data.append('peso', $('#mantenimientosuperior_input').val())
+            console.log($('#mantenimientosuperior_input').val(), 'all')
+
+            // data.append('peso_linea', peso)
+
+
         }else{
             data.append('peso_linea', 0)
         }
@@ -420,9 +460,70 @@ scratch. This page gets rid of all links and provides the needed markup only.
         calcularPesos()
     }
 
+    function imprimirCalculoDePesoAct(identifier){
+        console.log(identifier)
+        // console.log(e.keyCode)
+        // console.log(Number.isInteger(Number(String.fromCharCode(e.keyCode))))
+        // console.log(String.fromCharCode(e.keyCode), 'a')
 
-    $('#etapa_4').on('keyup', 'input', imprimirCalculoDePeso)
-    $('#etapa_5').on('keyup', 'input', imprimirCalculoDePeso)
+        console.log($(`${identifier} .peso`), 'al')
+
+        let peso = $(`${identifier} .peso`).val()
+
+        if(esSoloNumeroYFraccion.test(peso) == false){
+            toastr.error(`Solo se permiten numeros enteros o fracciones con punto ej: 1000.5`, `Error`)
+            $(`${identifier} .peso`).removeClass(`valid`)
+            $(`${identifier} .peso`).addClass(`invalid`)
+            return
+        }
+        if(!Number($(`${identifier} .peso`).val())){
+            toastr.error(`Ingresa un numero valido`, `Error`)
+            $(`${identifier} .peso`).removeClass(`valid`)
+            $(`${identifier} .peso`).addClass(`invalid`)
+            return
+        }
+        $(`${identifier} .peso`).removeClass(`invalid`)
+            $(`${identifier} .peso`).addClass(`valid`)
+        $(`#post_mantenimiento`).text($(`.peso`).val())
+        calcularPesos()
+    }
+
+    $('#etapa_3').on('keyup', 'input', (e) =>{
+        e.preventDefault()
+        var isBackspaceOrDelete = e.keyCode === 8 || e.keyCode === 46;
+
+        if(isBackspaceOrDelete){
+            return
+        }
+        imprimirCalculoDePesoAct('#etapa_3')
+    })
+
+    $('#etapa_4').on('keyup', 'input', (e) =>{
+        e.preventDefault()
+        var isBackspaceOrDelete = e.keyCode === 8 || e.keyCode === 46;
+
+        if(isBackspaceOrDelete){
+            return
+        }
+        imprimirCalculoDePesoAct('#etapa_4')
+    })
+
+    $('#etapa_5').on('keyup', 'input', (e) =>{
+        e.preventDefault()
+        var isBackspaceOrDelete = e.keyCode === 8 || e.keyCode === 46;
+
+        if(isBackspaceOrDelete){
+            return
+        }
+        imprimirCalculoDePesoAct('#etapa_5')
+    })
+
+
+    // $('#etapa_4').on('keyup', 'input', (e) =>{
+    //     e.preventDefault()
+    //     imprimirCalculoDePesoAct()
+    // })
+    // $('#etapa_5').on('keyup', 'input', imprimirCalculoDePeso)
 
     $( "#peso_recibido" ).submit(e=>{
         e.preventDefault()
