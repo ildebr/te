@@ -3,7 +3,10 @@
 require_once "controladores/usuario.controlador.php";
 require_once "modelos/usuario.modelo.php";
 
+
 session_start();
+require "acceso.php";
+acceso('administrador');
 if (isset($_GET["cerrar_sesion"]) && $_GET["cerrar_sesion"] == 1) {
 
     session_destroy();
@@ -218,7 +221,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <h3>PESO ACTUAL POST MANTENIMIENTO MAYOR (ACTUAL) : <span id="post_mantenimiento"></span></h3>
 
-            <h3>DIFERENCIA/MATERIAL RECUPERADO: <span id="recuperado"></span></h3>
+            <!-- <h3>DIFERENCIA/MATERIAL RECUPERADO: <span id="recuperado"></span></h3> -->
 
             <p>si el peso despues del mantenimiento es mayor al peso original del crisol + 500 kilos pasa mantenimiento mayor</p>
             <p>su es menor se libera</p>
@@ -306,8 +309,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }else if (respuesta.id_proceso_actual != 0 && respuesta.estado == 's'){
                     $("#etapa_5").show()
                     $(".peso_inicial").text(respuesta.peso_inicial)
-                    console.log(respuesta.peso_inicial, 'a;')
-                    $("#prev_mantenimiento").text(respuesta.peso_llegada_linea)
+                    console.log(respuesta.peso_inicial,respuesta.peso_llegada_linea, 'a;')
+                    $("#etapa_5 #prev_mantenimiento").text(respuesta.peso_mantenimiento_superior)
 
                 }
 
@@ -329,7 +332,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         
 
         
-        
+        console.log(etapa)
         if(etapa == 'mantenimiento'){
             if($('#peso_linea').val() == ''){
                 toastr.error('El input no puede estar vacio', 'Error')
@@ -356,7 +359,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 return
             }
 
-            let peso = $('#postmantenmiento_input').val()
+            let peso = $('#postmantenimiento_input').val()
 
             if(esSoloNumeroYFraccion.test(peso) == false){
                 toastr.error('Solo se permiten numeros enteros o fracciones con punto ej: 1000.5', 'Error')
@@ -364,7 +367,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             }
 
 
-            data.append('peso', $('#postmantenmiento_input').val())
+            data.append('peso', $('#postmantenimiento_input').val())
             console.log($('#postmantenmiento_input').val(), 'all')
 
             // data.append('peso_linea', peso)
@@ -391,7 +394,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
         }else{
-            data.append('peso_linea', 0)
+            data.append('peso', 0)
         }
 
         
@@ -460,32 +463,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
         calcularPesos()
     }
 
-    function imprimirCalculoDePesoAct(identifier){
-        console.log(identifier)
+    function imprimirCalculoDePesoAct(elementopadre){
+        console.log(elementopadre)
         // console.log(e.keyCode)
         // console.log(Number.isInteger(Number(String.fromCharCode(e.keyCode))))
         // console.log(String.fromCharCode(e.keyCode), 'a')
 
-        console.log($(`${identifier} .peso`), 'al')
+        console.log($(`${elementopadre} .peso`), 'al')
 
-        let peso = $(`${identifier} .peso`).val()
+        let peso = $(`${elementopadre} .peso`).val()
 
         if(esSoloNumeroYFraccion.test(peso) == false){
             toastr.error(`Solo se permiten numeros enteros o fracciones con punto ej: 1000.5`, `Error`)
-            $(`${identifier} .peso`).removeClass(`valid`)
-            $(`${identifier} .peso`).addClass(`invalid`)
+            $(`${elementopadre} .peso`).removeClass(`valid`)
+            $(`${elementopadre} .peso`).addClass(`invalid`)
             return
         }
-        if(!Number($(`${identifier} .peso`).val())){
+        if(!Number($(`${elementopadre} .peso`).val())){
             toastr.error(`Ingresa un numero valido`, `Error`)
-            $(`${identifier} .peso`).removeClass(`valid`)
-            $(`${identifier} .peso`).addClass(`invalid`)
+            $(`${elementopadre} .peso`).removeClass(`valid`)
+            $(`${elementopadre} .peso`).addClass(`invalid`)
             return
         }
-        $(`${identifier} .peso`).removeClass(`invalid`)
-            $(`${identifier} .peso`).addClass(`valid`)
-        $(`#post_mantenimiento`).text($(`.peso`).val())
-        calcularPesos()
+        $(`${elementopadre} .peso`).removeClass(`invalid`)
+            $(`${elementopadre} .peso`).addClass(`valid`)
+        $(`${elementopadre} #post_mantenimiento`).text($(`${elementopadre} .peso`).val())
+        calcularPesos(elementopadre)
     }
 
     $('#etapa_3').on('keyup', 'input', (e) =>{
@@ -530,12 +533,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     })
 
 
-    function calcularPesos(){
+    function calcularPesos(elementopadre){
         $('#destino_crisol').text('')
-        let recuperado = Number($("#prev_mantenimiento").text()) - Number($('#post_mantenimiento').text())
-        $('#recuperado').text(recuperado)
+        let recuperado = Number($(`${elementopadre} #prev_mantenimiento`).text()) - Number($(`${elementopadre} #post_mantenimiento`).text())
+        $(`#recuperado`).text(recuperado)
 
-        let diferencia_peso = Number($(".peso_inicial").text()) - Number($('#post_mantenimiento').text())
+        let diferencia_peso = Number($(`${elementopadre} .peso_inicial`).text()) - Number($(`${elementopadre} #post_mantenimiento`).text())
         console.log(diferencia_peso)
         if(diferencia_peso <= 0 && Math.abs(diferencia_peso) >= 500){
             $('#destino_crisol').text('El crisol se debe dirigir a mantenimiento')

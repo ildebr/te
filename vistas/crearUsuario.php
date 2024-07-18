@@ -54,7 +54,13 @@
     <div class="row form-group mt-2">
         <div class="col-3">turno</div>
         <div class="col-9">
-            <input type="text" name="turno" placeholder="turno" class="form-control">
+            <!-- <input type="text" name="turno" placeholder="turno" class="form-control"> -->
+            <select class='form-control' name="turno" id="turno">
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
         </div>
     </div>
 

@@ -9,6 +9,7 @@ class crisolControlador {
     static public function ctlDetalleCrisol($id){
         $crisol = CrisolModelo::mdlDetalleCrisol($id);
 
+
         if($crisol['id_proceso_actual'] != 0){
             $crisol = CrisolModelo::mdlDetalleCrisolExtendido($id);
         }
@@ -17,7 +18,11 @@ class crisolControlador {
 
     static public function ctlActualizarEstadoCrisol($id,$usuario,$peso){
         // $actualizar = crisolModelo::mdlActualizarEstadoCrisol($id,$estado,$usuario);
+
+
+        
         $crisol = CrisolModelo::mdlDetalleCrisol($id);
+
 
         if($crisol['estado'] == 'd'){
             $id_proceso = 0;
@@ -72,9 +77,11 @@ class crisolControlador {
             // return $actualproceso;
         }
 
-        if($crisol['estado'] == 'm' || $crisol['estado'] == 'm'){
+        if($crisol['estado'] == 'm'){
             // $mantenimiento_superior = crisolModelo::necesitaMantenimientoSuperior($crisol, $peso);
 
+
+            
 
             // return  $peso >  ( $crisol['peso'] + 500);
 
@@ -87,7 +94,7 @@ class crisolControlador {
                 // mantenimiento
                 $actualizar = crisolModelo::mdlActualizarEstadoCrisol($id,'m',$usuario, $crisol['id_proceso_actual']);
 
-                $peso = crisolModelo::mdlActualizarPesoCrisol($id,$peso);
+                $pesoNuevo = crisolModelo::mdlActualizarPesoCrisol($id,$peso);
 
                 // a;adir peso recibido de mantenmiento
 
@@ -97,19 +104,33 @@ class crisolControlador {
 
                 return $actualizar;
             }else if($peso < $crisol['peso']){
+
+                $crisol_extendido = crisolModelo::mdlDetalleCrisolExtendido($id);
+
                 $actualizar = crisolModelo::mdlActualizarEstadoCrisol($id,'s',$usuario, $crisol['id_proceso_actual']);
                 // $peso = crisolModelo::mdlActualizarPesoCrisol($id,$peso);
                 $proceso = crisolModelo::mdlActualizarProcesoRecibido($crisol['id_proceso_actual'], 's');
+
+                //p peso con el que se envia a mantenimiento superior
+
+
+                $auxiliar = crisolModelo::mdlActualizarProcesoPesoMantenimientoSuperior($crisol['id_proceso_actual'], $peso);
+
+                
+                $material_recuperado =$crisol_extendido['peso_llegada_linea'] - $peso ;
+                $recuperado = crisolModelo::mdlActualizarMaterialRecuperado($crisol['id_proceso_actual'],$material_recuperado);
 
                 $proceso_etapa = crisolModelo::mdlCrearProcesoEtapa($crisol['id_proceso_actual'], 's', $usuario, $peso);
                 return $actualizar;
             }else{
 
-                $material_recuperado = $crisol['peso'] - $peso;
+                $crisol_extendido = crisolModelo::mdlDetalleCrisolExtendido($id);
+
+                $material_recuperado =$crisol_extendido['peso_llegada_linea'] - $peso ;
                 // se libera
-                $actualizar = crisolModelo::mdlActualizarEstadoCrisol($id,'d',$usuario, 0);
-                $peso = crisolModelo::mdlActualizarPesoCrisol($id,$peso);
-                $recuperado = crisolModelo::mdlActualizarProcesoDisponible($crisol['id_proceso_actual'], $peso, $material_recuperado);
+                $actualizar = crisolModelo::mdlActualizarEstadoFinalCrisol($id,'d',$usuario);
+                $pesoNuevo = crisolModelo::mdlActualizarPesoCrisol($id,$peso);
+                $recuperado = crisolModelo::mdlActualizarProcesoCompletado($crisol['id_proceso_actual'], $peso, $material_recuperado);
                 $proceso_pesofinal = crisolModelo::mdlActualizarProcesoPesoFinal($crisol['id_proceso_actual'], $peso);
 
                 $proceso_etapa = crisolModelo::mdlCrearProcesoEtapa($crisol['id_proceso_actual'], 'c', $usuario, $peso);
@@ -119,12 +140,15 @@ class crisolControlador {
         }
 
         if($crisol['estado'] == 's'){
-            $actualizar = crisolModelo::mdlActualizarEstadoCrisol($id,'d',$usuario, 0);
-            $peso = crisolModelo::mdlActualizarPesoCrisol($id,$peso);
+            $actualizar = crisolModelo::mdlActualizarEstadoFinalCrisol($id,'d',$usuario);
+            $pesoNuevo = crisolModelo::mdlActualizarPesoCrisol($id,$peso);
             $proceso_pesofinal = crisolModelo::mdlActualizarProcesoPesoFinal($crisol['id_proceso_actual'], $peso);
+            $recuperado = crisolModelo::mdlActualizarProcesoCompletadoSinPeso($crisol['id_proceso_actual']);
 
             $proceso_etapa = crisolModelo::mdlCrearProcesoEtapa($crisol['id_proceso_actual'], 'c', $usuario, $peso);
             return $actualizar;
+
+
         }
         // else if($crisol['estado'] == 'l')
 

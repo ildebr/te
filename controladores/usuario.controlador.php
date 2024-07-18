@@ -53,6 +53,36 @@ class UsuarioControlador{
         
     }
 
+    static public function ctrEditarUsuario($nombre, $contrasena, $apellido, $cedula, $correo, $telefono, $turno, $rol){
+        $usuario = UsuarioModelo::mdlEditarUsuario($nombre, $contrasena, $apellido, $cedula, $correo, $telefono, $turno, $rol);
+
+        if ($usuario == 'ce'){
+            $output = array();
+            $output[] = array('estado' => 'fallido', 'error'=>true, 'msg' => 'correo ya existe');
+            return $output;
+        }
+        if($usuario > 0){
+            $output = array();
+            $output[] = array('estado' => 'exitoso', 'error'=>false, 'msg' => 'Datos actualizados');
+            return $output;
+            // return true;
+        }else{
+            $output = array();
+            $output[] = array('estado' => 'fallido', 'error'=>true, 'msg' => 'Datos no actualizados');
+            return $output;
+            // return false;
+        }
+        
+    }
+
+    static public function ctrDetalleUsuario($id){
+        $usuario = UsuarioModelo::mdlDetalleUsuario($id);
+        if($usuario > 0){
+            return $usuario;
+        }else{
+            return false;
+        }
+    }
     
     static public function ctrListarUsuario(){
         $usuarios = UsuarioModelo::mdlListarUsuario();
@@ -60,6 +90,15 @@ class UsuarioControlador{
             return array('error'=>'error');
         }{
             return $usuarios;
+        }
+    }
+
+    static public function ctrEliminarUsuario($id){
+        $usuario = UsuarioModelo::mdlEliminarUsuario($id);
+        if($usuario > 0){
+            return true;
+        }else{
+            return false;
         }
     }
 }

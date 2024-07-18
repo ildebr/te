@@ -73,11 +73,12 @@
                         targets: 5,
                         sortable: false,
                         render: function(data, type, full, meta) {
+                            console.log(full,'p')
                             return "<center>" +
-                                        "<span class='btnEditarCategoria text-primary px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar Usuario'> " +
+                                        "<a href ='editarUsuario.php?id="+ full.id +"' class='btnEditarCategoria text-primary px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Editar Usuario'> " +
                                         "<i class='fas fa-pencil-alt fs-5'></i> " +
-                                        "</span> " +
-                                        "<span class='btnEliminarUsuario text-danger px-1'style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Eliminar Usuario'> " +
+                                        "</a> " +
+                                        "<span class='btnEliminarUsuario text-danger px-1'style='cursor:pointer;' data-usuario='" +full.id + "' data-bs-toggle='tooltip' data-bs-placement='top' title='Eliminar Usuario'> " +
                                         "<i class='fas fa-trash fs-5'> </i> " +
                                         "</span>" +
                                 "</center>";
@@ -96,9 +97,17 @@
         })
     })
 
-    $('#listarUsuarios tbody').on('click', '.btnEliminarUsuario', function() {
+    $('#listarUsuarios tbody').on('click', '.btnEliminarUsuario', function(e) {
 
         // var data = tableUsuarios.row($(this).parents('tr')).data();
+
+        console.log(e.currentTarget)
+
+        $('.currentDeleteSelected').removeClass('currentDeleteSelected')
+
+        $(e.currentTarget).addClass('currentDeleteSelected')
+
+        console.log($('.currentDeleteSelected').attr('data-usuario'))
 
         Swal.fire({
             title: 'Está seguro de eliminar a este usuario'+'?',
@@ -109,11 +118,42 @@
             confirmButtonText: 'Aceptar!',
             cancelButtonText: 'Cancelar!',
         }).then((result) => {
+            console.log(result)
             if (result.isConfirmed) {
+                var data = new FormData()
+                data.append('accion', 3)
+                data.append('usuario', $('.currentDeleteSelected').attr('data-usuario'))
+                $.ajax({
+                    url: 'ajax/usuario.ajax.php',
+                    type: "POST",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success : function (respuesta){
+                        console.log(respuesta, 'a')
 
+                        if(respuesta == true){
+                            CargarContenido('vistas/landing.php','content-wrapper')
+                            toastr.success('Usuario eliminado', 'Exito')
+                        }else{
+                            toastr.error('Hubo un error con tu solicitud', 'Error')
+                        }
+
+                        // if(respuesta.estado == true){
+                        //     console.log('alos')
+                        //     $("#crisol-estadoactual").text(respuesta.result.estado)
+
+                        // }
+                    }
+                })
                 
                 
             }
         })
         })
+
+
+        
 </script>

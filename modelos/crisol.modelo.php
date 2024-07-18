@@ -59,6 +59,28 @@ class CrisolModelo{
         
     }
 
+    static public function mdlActualizarEstadoFinalCrisol($id, $estado, $usuario){
+
+        $stmt = Conexion::conectar()->prepare("UPDATE crisol SET estado = :estado, id_proceso_actual = 0 WHERE id=:id"); 
+        
+        $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+                                                 
+        $stmt -> execute();
+        if($stmt->rowCount() > 0){
+            $stmt2 = Conexion::conectar()->prepare("SELECT  *
+                                                FROM crisol WHERE id=:id"); 
+        
+            $stmt2->bindParam(":id", $id, PDO::PARAM_STR);
+                                                    
+            $stmt2 -> execute();
+            return array("estado" => true, "result" => $stmt2->fetch());
+        }
+
+        return false;
+        
+    }
+
 
     static public function mdlCrearIdProceso(){
         $stmt =  Conexion::conectar()->prepare("SELECT max(id) as mayor FROM proceso");
@@ -136,11 +158,47 @@ class CrisolModelo{
         // return $peso + 10;
     }
 
-    static public function mdlActualizarProcesoDisponible($id_proceso, $peso, $recuperado){
-        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso, material_recuperado = :recuperado WHERE id_proceso = :id_proceso");
+    static public function mdlActualizarProcesoPesoMantenimientoSuperior($id_proceso, $peso){
+        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_mantenimiento_superior = :peso WHERE id_proceso = :id_proceso");
+        $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
+        $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        return Conexion::conectar()->lastInsertId();
+    }
+
+    static public function mdlActualizarMaterialRecuperado($id_proceso, $peso){
+        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET material_recuperado = :peso WHERE id_proceso = :id_proceso");
+        $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
+        $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
+
+        $stmt -> execute();
+        return Conexion::conectar()->lastInsertId();
+    }
+
+    static public function mdlActualizarProcesoCompletado($id_proceso, $peso, $recuperado){
+        $estado = 'i';
+        $etapa = 'c';
+        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso, material_recuperado = :recuperado, estado = :estado, etapa = :etapa WHERE id_proceso = :id_proceso");
         $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
         $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
         $stmt->bindParam(":recuperado", $recuperado, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->bindParam(":etapa", $etapa, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        return Conexion::conectar()->lastInsertId();
+    }
+
+    static public function mdlActualizarProcesoCompletadoSinPeso($id_proceso){
+        $estado = 'i';
+        $etapa = 'c';
+        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET  estado = :estado, etapa = :etapa WHERE id_proceso = :id_proceso");
+        $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->bindParam(":etapa", $etapa, PDO::PARAM_STR);
 
         $stmt -> execute();
 
@@ -150,6 +208,7 @@ class CrisolModelo{
     static public function mdlActualizarProcesoPesoFinal($id_proceso, $peso){
         $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso WHERE id_proceso = :id_proceso");
         $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
+        $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
         $stmt -> execute();
 
         return Conexion::conectar()->lastInsertId();

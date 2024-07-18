@@ -1,6 +1,4 @@
-<?php
-
-function acceso($permisos){
+function accesso($permisos){
     echo $_SESSION["permisos"];
     if(isset($_SESSION["permisos"])){
         if($permisos == 'usuario' ){
@@ -18,5 +16,12 @@ function acceso($permisos){
     }
 }
 
+// function accesso($permisos){
+//     if(isset($_SESSION["permisos"]) && !$_SESSION["permisos"][$permisos]){
+//         ?><script>location.replace("denegado.php")</script> <?php
+//         die;
+//     }
+// }
 
-
+// $_SESSION["permisos"]["ADMIN"] = isset($_SESSION["permisos"]) && $_SESSION["permisos"] == "administrador";
+// $_SESSION["permisos"]["USER"] = isset($_SESSION["permisos"]) && ($_SESSION["permisos"] == "usuario" || $_SESSION["permisos"] == "administrador");
