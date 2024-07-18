@@ -1,7 +1,6 @@
 <?php
 
 function acceso($permisos){
-    echo $_SESSION["permisos"];
     if(isset($_SESSION["permisos"])){
         if($permisos == 'usuario' ){
             if( !($_SESSION["permisos"] == 'usuario' || $_SESSION["permisos"] == 'administrador')){
