@@ -195,6 +195,18 @@
 
         $('#filtrar-proceso-btn').click((e)=>{
             e.preventDefault()
+            todosvacio = true
+            inputsele = $('.areadebusqueda input')
+            inputsele.each((idx, ele) =>{
+                if($(ele).val() != '') todosvacio = false
+            })
+
+            if(todosvacio){
+                toastr.error('Debes llenar al menos un campo para filtrar', 'Error')
+                return
+            }
+
+            e.preventDefault()
             var datan = new FormData()
             datan.append('accion', 2)
             datan.append('id', $("input[name='crisol']").val())
