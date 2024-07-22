@@ -16,12 +16,18 @@ class crisolControlador {
         return $crisol;
     }
 
+    static public function ctlFiltrarCrisol($crisol,$fecha_inicio, $fecha_fin, $estado ){
+        return 0;
+    }
+
     static public function ctlActualizarEstadoCrisol($id,$usuario,$peso){
         // $actualizar = crisolModelo::mdlActualizarEstadoCrisol($id,$estado,$usuario);
 
 
         
         $crisol = CrisolModelo::mdlDetalleCrisol($id);
+
+        // return $crisol;
 
 
         if($crisol['estado'] == 'd'){

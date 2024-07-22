@@ -19,6 +19,10 @@
         font-weight: 700;
     }
 
+    .sidebar{
+        width: 100% !important;
+    }
+
     /* .nav-item:hover{
         background
     } */

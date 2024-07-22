@@ -6,7 +6,7 @@ require_once "modelos/usuario.modelo.php";
 
 session_start();
 require "acceso.php";
-acceso('administrador');
+acceso('usuario');
 if (isset($_GET["cerrar_sesion"]) && $_GET["cerrar_sesion"] == 1) {
 
     session_destroy();
@@ -190,7 +190,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
 
         <!-- ETAPA 4 -->
-        <div class="crisol-etapa" id="etapa_4" data-estado-etapa='linea'>
+        <div class="crisol-etapa" id="etapa_4" data-estado-etapa='postmantenimiento'>
             <h2>Registrar el peso con el que llego de mantenimiento</h2>
 
             <h3>PESO INICIAL: <span class="peso_inicial"></span></h3>
@@ -339,6 +339,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 return
             }
 
+            if($('#peso_linea').val() == ''){
+                toastr.error('El input no puede estar vacio', 'Error')
+                return
+            }
+
+            if($('#peso_linea').val() < Number($('#crisol-pesoactual').text())){
+                toastr.error('El peso de llegada de linea no puede ser inferior al peso inicial del crisol.', 'Error')
+                return
+            }
+
             let peso = $('#peso_linea').val()
 
             if(esSoloNumeroYFraccion.test(peso) == false){
@@ -354,12 +364,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
         }else if(etapa == 'postmantenmiento'){
-            if($('#postmantenmiento_input').val() == ''){
+            if($('#postmantenimiento_input').val() == ''){
                 toastr.error('El input no puede estar vacio', 'Error')
                 return
             }
 
             let peso = $('#postmantenimiento_input').val()
+
+            // console.log(peso, 'aqui111')
+
+            if( Number($(' [data-estado-etapa="postmantenimiento"] span#post_mantenimiento').text()) >  (Number($('[data-estado-etapa="postmantenimiento"]  span.peso_inicial').text()) + 500 )){
+                toastr.error('El crisol debe permanecer en mantenimiento hasta tener un peso inferior', 'Error')
+
+                return 
+
+            }
 
             if(esSoloNumeroYFraccion.test(peso) == false){
                 toastr.error('Solo se permiten numeros enteros o fracciones con punto ej: 1000.5', 'Error')

@@ -46,35 +46,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de sesion</title>
+    <title>Inicio de sesion - SIPEC</title>
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      h2{
+        text-align: center;
+        margin-top: 1rem;
+      }
+    </style>
 </head>
 <body>
 <main class="login">
-    <h2>INICIA SESIÓN</h2>
+    
 <!-- <form method="POST">
     <input type="text" name="correo" placeholder="CORREO">
     <input type="password" name="clave" placeholder="CONTRASEÑA">
     <input type="submit" class="btn">
 </form> -->
-    <p>¿No tienes una cuenta? <a href="signup.php">Registrate</a></p>
+
 </main>
 
-<section class="vh-100">
+<section class="vh-90">
+<h2>INICIA SESIÓN - SIPEC</h2>
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
         <img src="vistas/assets/imagenes/draw2.webp"
           class="img-fluid" alt="Sample image">
       </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 mt-6">
         <form  method="POST">
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
             <input type="text"  name="correo" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Ingresa un correo valido" />
-            <label class="form-label" for="form3Example3">Correo</label>
+              placeholder="Ingresa una cedula valida" />
+            <label class="form-label" for="form3Example3">Cedula</label>
           </div>
 
           <!-- Password input -->

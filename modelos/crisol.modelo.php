@@ -15,10 +15,12 @@ class CrisolModelo{
     static public function mdlDetalleCrisol($id){
         // $stmt = Conexion::conectar()->prepare("SELECT  *
         //                                         FROM crisol WHERE id=:id"); 
+
         $stmt = Conexion::conectar()->prepare("SELECT  *
-                                                FROM crisol  WHERE crisol.id=:id"); 
+                                                FROM crisol  WHERE id=:id"); 
         
         $stmt->bindParam(":id", $id, PDO::PARAM_STR);
+
                                                  
         $stmt -> execute();
     
@@ -60,7 +62,6 @@ class CrisolModelo{
     }
 
     static public function mdlActualizarEstadoFinalCrisol($id, $estado, $usuario){
-
         $stmt = Conexion::conectar()->prepare("UPDATE crisol SET estado = :estado, id_proceso_actual = 0 WHERE id=:id"); 
         
         $stmt->bindParam(":id", $id, PDO::PARAM_STR);
@@ -178,14 +179,17 @@ class CrisolModelo{
     }
 
     static public function mdlActualizarProcesoCompletado($id_proceso, $peso, $recuperado){
+        date_default_timezone_set('America/Caracas');
+        $fecha_fin = date('Y-m-d H:i:s');
         $estado = 'i';
         $etapa = 'c';
-        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso, material_recuperado = :recuperado, estado = :estado, etapa = :etapa WHERE id_proceso = :id_proceso");
+        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso, material_recuperado = :recuperado, estado = :estado, etapa = :etapa, fecha_fin = :fecha_fin WHERE id_proceso = :id_proceso");
         $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
         $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
         $stmt->bindParam(":recuperado", $recuperado, PDO::PARAM_STR);
         $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
         $stmt->bindParam(":etapa", $etapa, PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_fin", $fecha_fin, PDO::PARAM_STR);
 
         $stmt -> execute();
 
@@ -206,9 +210,12 @@ class CrisolModelo{
     }
 
     static public function mdlActualizarProcesoPesoFinal($id_proceso, $peso){
-        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso WHERE id_proceso = :id_proceso");
+        date_default_timezone_set('America/Caracas');
+        $fecha_fin = date('Y-m-d H:i:s');
+        $stmt = Conexion::conectar()->prepare("UPDATE proceso SET peso_final = :peso, fecha_fin = :fecha_fin WHERE id_proceso = :id_proceso");
         $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
         $stmt->bindParam(":id_proceso", $id_proceso, PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_fin", $fecha_fin, PDO::PARAM_STR);
         $stmt -> execute();
 
         return Conexion::conectar()->lastInsertId();

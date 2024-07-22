@@ -1,8 +1,28 @@
 <style>
+
+    
     .crisoles_contenedor{
         display: grid;
         grid-template-columns:1fr 1fr 1fr 1fr;
         gap: .5rem;
+    }
+
+    @media (max-width: 631px){
+        .crisoles_contenedor{
+            grid-template-columns:1fr 1fr;
+        }
+    }
+
+    @media (max-width: 980px){
+        .crisoles_contenedor{
+            grid-template-columns:1fr 1fr 1fr;
+        }
+    }
+
+    .crisol_elemento img{
+        max-width: 100px;
+    display: block;
+    margin: 0 auto;
     }
 
     .crisol_elemento{
@@ -10,6 +30,9 @@
         border-radius: 5px;
         padding:.5rem;
         text-align:center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 </style>
 
@@ -17,7 +40,7 @@
       <h1>Inicio</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
         </ol>
       </nav>
 </div>
@@ -59,7 +82,7 @@
 
                 respuesta.forEach((resp)=>{
                     $('.crisoles_contenedor').append(`<div class="crisol_elemento">
-                    <img src="vistas/assets/imagenes/crisol.png"
+                    <img src="vistas/assets/imagenes/crisol.png" />
                     <p class='h5'> <strong> ${resp.nombre_identificador} </strong> </p>
                     <p> Estado: ${establecerEstado(resp.estado)} </p>
                     <a class='btn btn-primary' href="detalleCrisol.php?crisol=${resp.id}">Detalle</a>
