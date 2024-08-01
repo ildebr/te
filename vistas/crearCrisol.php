@@ -49,11 +49,16 @@
 
 <script>
     $('.crear-crisol-form').submit(e =>{
-        console.log(e)
+        // console.log(e)
         e.preventDefault()
 
 
         if (!$('.crear-crisol-form').valid()) return 
+
+        if ($('[name=peso]').val() < 7200 || $('[name=peso]').val() > 7500) {
+            toastr.error('El peso debe estar entre 7200kg y 7500kg', 'Error')
+            return
+        }
         data = new FormData();
         data.append('accion', '5')
         data.append('nombre', $('[name=nombre]').val())
@@ -76,7 +81,7 @@
                 console.log(respuesta)
 
 
-                if(respuesta[0].error == true){
+                if(!respuesta){
                     toastr.error(respuesta[0].error_msg, 'Error')
                     console.log('here')
                 }else{
