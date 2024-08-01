@@ -13,6 +13,7 @@
 
     li:hover{
         background: #1d50b8;
+        cursor: pointer;
     }
 
     .navbar-nav a.nav-link{
@@ -69,6 +70,12 @@
                 <a class="nav-link " onclick="CargarContenido('vistas/reporte.php','content-wrapper')">
                     <i class="bi bi-grid"></i>
                     <span>Reporte</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " onclick="CargarContenido('vistas/crearCrisol.php','content-wrapper')">
+                    <i class="bi bi-grid"></i>
+                    <span>Crear Crisol</span>
                 </a>
             </li>
             <li class="nav-item">

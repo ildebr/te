@@ -156,11 +156,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <header class="crisol-header">
         <h1 class="h3 mb-0 text-gray-800">Detalle crisol</h1>
         <div class="habilitar">
-            <!-- <?php
-            if ($_SESSION['permisos'] == 'administrador'){
-                echo '<button class="btn btn-danger"> Inhabilitar crisol </button> ';
-            }
-            ?> -->
             <?php
             if ($_SESSION['permisos'] == 'administrador'){
                 // si es administrador se 
@@ -170,7 +165,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             ?>
         </div>
         </header>
-        <?=$_SESSION['id']?>
 
         <div id="detalle_crisol">
             <div>Nombre identificador: <h3 id="crisol-nombre"></h3></div>
@@ -371,6 +365,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             dataType: 'json',
             success: function(respuesta){
                 console.log(respuesta)
+
+                if(respuesta.estado){
+                    window.location.reload();
+                }
             }
         })
     })

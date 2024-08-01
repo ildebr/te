@@ -26,6 +26,12 @@ class crisolControlador {
         return 0;
     }
 
+    static public function ctlCrearCrisol($nombre,$peso){
+        $crisol = CrisolModelo::mdlCrearCrisol($nombre,$peso);
+
+        return $crisol;
+    }
+
     static public function ctlActualizarEstadoCrisol($id,$usuario,$peso){
         // $actualizar = crisolModelo::mdlActualizarEstadoCrisol($id,$estado,$usuario);
 

@@ -178,6 +178,14 @@ class CrisolModelo{
         return Conexion::conectar()->lastInsertId();
     }
 
+    static public function mdlCrearCrisol($nombre,$peso){
+        $stmt =Conexion::conectar()->prepare("INSERT INTO crisol(nombre_identificador, peso, estado) VALUES (:nombre,:peso, 'd')");
+        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+        $stmt->bindParam(":peso", $peso, PDO::PARAM_STR);
+        $stmt -> execute();
+        return Conexion::conectar()->lastInsertId();
+    }
+
     static public function mdlActualizarProcesoCompletado($id_proceso, $peso, $recuperado){
         date_default_timezone_set('America/Caracas');
         $fecha_fin = date('Y-m-d H:i:s');

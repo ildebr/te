@@ -48,7 +48,7 @@ define("DOMPDF_ENABLE_REMOTE", false);
                 </td>
                 <td colspan="40">
                     <p><strong>Industria Venezolana de Aluminio</strong></p>
-                    <p><strong>SuperIntendencia de Servicios a Reduccion</strong></p>
+                    <p><strong>SuperIntendencia de Servicios a Reducción</strong></p>
                     <p><strong>Departamento de Servicios Auxiliares</strong></p>
                     </br>
                     <p><strong>Reporte de Mantenimiento de Crisoles</strong></p>

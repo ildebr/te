@@ -23,6 +23,11 @@ class AjaxCrisol{
         // echo json_encode(array("hello"=>"alo"));
         echo json_encode($crisol);
     }
+
+    public function ajaxCrearCrisol($nombre,$peso){
+        $crisol = CrisolControlador::ctlCrearCrisol($nombre,$peso);
+        echo json_encode($crisol);
+    }
 }
 
 
@@ -30,9 +35,11 @@ if(isset($_POST['accion']) && $_POST['accion'] == 1){
     $crisolListado = new AjaxCrisol();
     $crisolListado->ajaxObtenerCrisoles();
 }elseif(isset($_POST['accion']) && isset($_POST['id']) && $_POST['accion'] == 2) {
+    // detalle del crisol
     $crisolDetalle = new AjaxCrisol();
     $crisolDetalle->ajaxObtenerDetalle($_POST['id']);
 }elseif(isset($_POST['accion']) && isset($_POST['id']) && isset($_POST['usuario']) && $_POST['accion'] == 3){
+    //actualizar estado del crisol
     $actualizarCrisol = new AjaxCrisol();
     if(isset($_POST['peso'])){
         $actualizarCrisol->ajaxActualizarCrisol($_POST['id'], $_POST['usuario'], $_POST['peso']);
@@ -41,8 +48,13 @@ if(isset($_POST['accion']) && $_POST['accion'] == 1){
     }
     
 }elseif(isset($_POST['accion']) && $_POST['accion'] == 4 && $_POST['crisol'] && $_POST['usuario']){
+    // inhabilitar/habilitar crisol
     $actualizarCrisol = new AjaxCrisol();
     $actualizarCrisol->ajaxInhabilitarCrisol($_POST['crisol'],$_POST['usuario']);
+}elseif(isset($_POST['accion']) && $_POST['accion'] == 5 && $_POST['nombre'] && $_POST['peso']){
+    //crear crisol
+    $crearCrisol = new AjaxCrisol();
+    $crearCrisol->ajaxCrearCrisol($_POST['nombre'],$_POST['peso']);
 }
 
 
