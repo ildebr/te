@@ -23,22 +23,14 @@
             }
             
         }else{
-            $error ="Los valores ingresados no corresponden a un usuario registrado". password_hash($_POST["clave"], PASSWORD_DEFAULT);
+            $error ="Los valores ingresados no corresponden a un usuario registrado";
         }
  
     }
     
 ?>
 
-<?php
-    if($error!=""){
-        echo $error;
-    }
 
-    if(isset($_SESSION['nombre'])){
-        echo $_SESSION['nombre'];
-    }
-?>
 
 
 <!DOCTYPE html>
@@ -98,6 +90,13 @@
           style="padding-left: 2.5rem; padding-right: 2.5rem;" value='Ingresar'>
           </div>
           
+          <p class="error">
+          <?php
+    if($error!=""){
+        echo $error;
+    }
+?>
+          </p>
 
         </form>
       </div>

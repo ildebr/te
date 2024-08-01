@@ -34,6 +34,10 @@
         flex-direction: column;
         justify-content: space-between;
     }
+
+    .crisol_elemento.inactivo{
+        opacity: 0.76;
+    }
 </style>
 
 <div class="pagetitle">
@@ -81,7 +85,7 @@
                 
 
                 respuesta.forEach((resp)=>{
-                    $('.crisoles_contenedor').append(`<div class="crisol_elemento">
+                    $('.crisoles_contenedor').append(`<div class="crisol_elemento ${resp.estado == 'i' ? 'inactivo' : ''} ">
                     <img src="vistas/assets/imagenes/crisol.png" />
                     <p class='h5'> <strong> ${resp.nombre_identificador} </strong> </p>
                     <p> Estado: ${establecerEstado(resp.estado)} </p>
@@ -130,6 +134,9 @@
         }
         if(estado == 's' ){
             m = 'Mantenimiento mayor'
+        }
+        if(estado == 'i' ){
+            m = 'Inhabilitado'
         }
 
         return m

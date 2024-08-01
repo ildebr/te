@@ -31,7 +31,7 @@
     <span  >Accion</span>
 </div> -->
 
-<form method="POST" action="vistas/generarReportePDF.php">
+<form method="POST" action="vistas/generarReportePDF.php" id="filtros-reporte">
 <div class="areadebusqueda">
     <span>
         <p>Crisol Id</p>
@@ -239,5 +239,20 @@
                 }
             })
         })
+    })
+
+    $('#filtros-reporte').submit(e=>{
+        todosvacio = true
+        inputsele = $('.areadebusqueda input')
+        inputsele.each((idx, ele) =>{
+            if($(ele).val() != '') todosvacio = false
+        })
+
+        if(todosvacio){
+            toastr.error('Debes llenar al menos un campo para crear el pdf', 'Error')
+            e.preventDefault()
+            return
+        }
+        
     })
 </script>

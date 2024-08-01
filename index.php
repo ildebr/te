@@ -70,6 +70,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- jQuery -->
     <script src="vistas/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Validacion -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+    
 
     <!-- Bootstrap 4 -->
     <script src="vistas/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

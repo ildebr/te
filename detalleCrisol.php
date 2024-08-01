@@ -131,6 +131,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         #crisol-nombre,#crisol-id{
             display:inline;
         }
+
+        .crisol-header{
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 
 
@@ -147,8 +152,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <div class="container">
 
-
+        
+        <header class="crisol-header">
         <h1 class="h3 mb-0 text-gray-800">Detalle crisol</h1>
+        <div class="habilitar">
+            <!-- <?php
+            if ($_SESSION['permisos'] == 'administrador'){
+                echo '<button class="btn btn-danger"> Inhabilitar crisol </button> ';
+            }
+            ?> -->
+            <?php
+            if ($_SESSION['permisos'] == 'administrador'){
+                // si es administrador se 
+                echo '<div id="habilitar-area"> </div> ';
+                
+            }
+            ?>
+        </div>
+        </header>
+        <?=$_SESSION['id']?>
 
         <div id="detalle_crisol">
             <div>Nombre identificador: <h3 id="crisol-nombre"></h3></div>
@@ -162,6 +184,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </select> -->
 
 
+        </div>
+
+        <!-- INHABILITADO -->
+        <div class="crisol-etapa" id="inhabilitado_etapa" data-estado-etapa='inhabilitado_etapa'>
+            <h2>ESTE CRISOL SE ENCUENTRA INHABILITADO</h2>
+            <p>NO SE PUEDE MODIFICAR HASTA QUE UN ADMINISTRADOR CAMBIE SU ESTADO A DISPONIBLE</p>
         </div>
 
         <!-- ETAPA 1 -->
@@ -266,6 +294,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         if(estado == 'r'){
             return 'Recibido'
         }
+        if(estado == 'i'){
+            return 'Inhabilitado'
+        }
     }
     $(document).ready(function(){
 
@@ -291,8 +322,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $("#crisol-id").text(respuesta.id)
                 $("#crisol-estadoactual").text(imprimirEstado(respuesta.estado))
                 $("#crisol-pesoactual").text(respuesta.peso)
-
-                if(respuesta.id_proceso_actual ==  0){
+                // si esta disponible buscara el contenedor #habilitar-are que solo le sale a los administradores y le dara la opcion de inhabilitar
+                if(respuesta.estado == 'd' ) $('#habilitar-area').html("<button class='btn btn-danger' id='inhabilitar-crisol'> Inhabilitar crisol </button> ")
+                if(respuesta.estado == 'i' ) $('#habilitar-area').html("<button class='btn btn-success' id='inhabilitar-crisol'> Habilitar crisol </button> ")
+                
+                if(respuesta.id_proceso_actual ==  0 && respuesta.estado == 'i'){
+                    $("#inhabilitado_etapa").show()
+                }else if(respuesta.id_proceso_actual ==  0){
                     $("#etapa_1").show()
                     console.log('h')
                 }else if (respuesta.id_proceso_actual != 0 && respuesta.estado == 'l'){
@@ -315,6 +351,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 }
 
 
+            }
+        })
+    })
+
+    $('body').on('click', 'button#inhabilitar-crisol', e=>{
+        console.log(e,'pp')
+        var data = new FormData();
+        data.append('accion', 4)
+        data.append('crisol', <?=$_GET['crisol']?>)
+        data.append('usuario', <?=$_SESSION['id']?>)
+        $.ajax({
+            url: 'ajax/crisol.ajax.php',
+            type: "POST",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(respuesta){
+                console.log(respuesta)
             }
         })
     })
@@ -346,6 +402,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             if($('#peso_linea').val() < Number($('#crisol-pesoactual').text())){
                 toastr.error('El peso de llegada de linea no puede ser inferior al peso inicial del crisol.', 'Error')
+                return
+            }
+
+            if($('#peso_linea').val() > 16000){
+                toastr.error('El peso no puede ser mayor a 16000 kilos.', 'Error')
                 return
             }
 
@@ -398,6 +459,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 return
             }
 
+            if($('#mantenimientosuperior_input').val() <7200 || $('#mantenimientosuperior_input').val() > 7500){
+                toastr.error('El valor tiene que estar entre 7200 y 7500', 'Error')
+                return
+            }
+
             let peso = $('#mantenimientosuperior_input').val()
 
             if(esSoloNumeroYFraccion.test(peso) == false){
@@ -418,30 +484,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         
 
-        $.ajax({
-            url: 'ajax/crisol.ajax.php',
-            type: "POST",
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success : function (respuesta){
-                console.log(respuesta, 'a')
+        // $.ajax({
+        //     url: 'ajax/crisol.ajax.php',
+        //     type: "POST",
+        //     data: data,
+        //     cache: false,
+        //     contentType: false,
+        //     processData: false,
+        //     dataType: 'json',
+        //     success : function (respuesta){
+        //         console.log(respuesta, 'a')
 
-                if(respuesta.estado == true){
-                    window.location.replace('index.php')
-                }else{
-                    toastr.error('Hubo un error con tu solicitud', 'Error')
-                }
+        //         if(respuesta.estado == true){
+        //             window.location.replace('index.php')
+        //         }else{
+        //             toastr.error('Hubo un error con tu solicitud', 'Error')
+        //         }
 
-                // if(respuesta.estado == true){
-                //     console.log('alos')
-                //     $("#crisol-estadoactual").text(respuesta.result.estado)
+        //         // if(respuesta.estado == true){
+        //         //     console.log('alos')
+        //         //     $("#crisol-estadoactual").text(respuesta.result.estado)
 
-                // }
-            }
-        })
+        //         // }
+        //     }
+        // })
 
 
 

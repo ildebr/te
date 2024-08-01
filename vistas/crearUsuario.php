@@ -1,3 +1,12 @@
+
+<style>
+    .error{
+        font-size: 1rem;
+        color: red;
+        width: 100% !important;
+    }
+</style>
+
 <div class="pagetitle">
       <h1>Administrador</h1>
       <nav>
@@ -95,6 +104,9 @@
     $('.registrar-usuario-form').submit(e =>{
         console.log('here')
         e.preventDefault()
+
+        // si el formulario no es valido no se pasa la informacion
+        if(!$('.registrar-usuario-form').valid()) return
         data = new FormData();
         data.append('accion', '1')
         data.append('nombre', $('[name=nombre]').val())
@@ -142,5 +154,74 @@
                 toastr.error(error, "Error")
             }
         })
+    })
+
+
+    $('.registrar-usuario-form').validate({
+        rules:{
+            nombre: {
+                required: true,
+                lettersonly: true,
+                minlength: 3,  // <- here
+                maxlength: 20,
+            },
+            apellido: {
+                required: true,
+                lettersonly: true,
+                minlength: 3,  // <- here
+                maxlength: 20,
+            },
+            cedula:{
+                digits: true,
+                minlength:7,
+                maxlength: 10,
+                required: true
+            },
+            correo:{
+                email: true,
+                required: true
+            },
+            telefono:{
+                digits: true,
+                minlength:7,
+                maxlength: 11
+            },
+            contrasena:{
+                required: true,
+
+            }
+        },
+        messages:{
+            nombre:{
+                required: "Este campo es requerido",
+                lettersonly: "Solo se puede ingresar letras",
+                minlength: "Minimo 3 letras",
+                maxlength: "Maximo 20 letras",
+            },
+            apellido:{
+                required: "Este campo es requerido",
+                lettersonly: "Solo se puede ingresar letras",
+                minlength: "Minimo 3 letras",
+                maxlength: "Maximo 20 letras",
+            },
+            cedula:{
+                digits: "Solo se permiten numeros",
+                minlength: "Minimo 7 numeros",
+                maxlength: "Maximo 10 numeros",
+                required: "Este campo es obligatorio"
+            },
+            correo:{
+                email: "Ingresa un email valido",
+                required: "Este campo es obligatorio"
+            },
+            telefono:{
+                digits: "Solo se permiten numeros",
+                minlength: "Minimo 7 numeros",
+                maxlength: "Maximo 11 numeros"
+            },
+            contrasena:{
+                required: "Este campo es obligatorio"
+            }
+        }
     })
 </script>

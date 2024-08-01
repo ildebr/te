@@ -222,5 +222,53 @@ class CrisolModelo{
     }
 
 
+    static public function mdlInhabilitarCrisol($id,$usuario){
+        // se busca el usuario y se confirma que tenga permisos de administrador
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM usuario WHERE id = :id");
+        $stmt->bindParam(":id", $usuario, PDO::PARAM_STR);
+
+        $stmt -> execute();
+        $result = $stmt->fetch();
+        if(isset($result)){
+            if($result['rol']=='administrador'){
+                // return $id;
+                $stmt2 = Conexion::conectar()->prepare("SELECT * FROM crisol WHERE id = :id");
+                $stmt2->bindParam(':id', $id, PDO::PARAM_STR);
+                $stmt2 -> execute();
+                $result2 = $stmt2->fetch();
+                // si el usuario es administrador y el crisol existe se actualiza a disponible o inhabilitado acordemente
+                if($result2['estado'] == 'd'){
+                    $stmt3 = Conexion::conectar()->prepare("UPDATE crisol set estado = 'i' WHERE id = :id");
+                    $stmt3->bindParam(':id', $id, PDO::PARAM_STR);
+                    $stmt3->execute();
+                    
+                    if($stmt3->rowCount() > 0){
+                        return array("estado" => true, "result" => Conexion::conectar()->lastInsertId(), "exito_msg"=>"Crisol inhabilitado");
+                    }else{
+                        return array("estado"=>false,  "error_msg"=>"Crisol no existe o ya esta inhabilitado", "exito_msg"=>"");
+                    }
+                    
+                }else{
+                    $stmt3 = Conexion::conectar()->prepare("UPDATE crisol set estado = 'd' WHERE id = :id");
+                    $stmt3->bindParam(':id', $id, PDO::PARAM_STR);
+                    $stmt3->execute();
+                    if($stmt3->rowCount() > 0){
+                        return array("estado" => true, "result" => Conexion::conectar()->lastInsertId(), "exito_msg"=>"Crisol habilitado");
+                    }else{
+                        return array("estado"=>false,  "error_msg"=>"Crisol no existe o ya esta inhabilitado", "exito_msg"=>"");
+                    }
+                    // return array("estado"=>true, "result"=>$result2, "error_msg"=>"", "exito_msg"=>"Crisol Habilitado");
+                }
+                // return $result2;
+            }else{
+                return array("estado"=>false, "error_msg"=>"No tiene los permisos necesarios");
+            }
+        }else{
+            return array("error_msg"=>"El usuario no existe");
+        }
+        return array("estado"=>true, "result"=>$result, "error_msg"=>"");
+    }
+
+
     // static public function 
 }

@@ -16,6 +16,12 @@ class crisolControlador {
         return $crisol;
     }
 
+    static public function ctlInhabilitarCrisol($id,$usuario){
+        $crisol = CrisolModelo::mdlInhabilitarCrisol($id, $usuario);
+
+        return $crisol;
+    }
+
     static public function ctlFiltrarCrisol($crisol,$fecha_inicio, $fecha_fin, $estado ){
         return 0;
     }

@@ -17,6 +17,12 @@ class AjaxCrisol{
         $crisol = CrisolControlador::ctlActualizarEstadoCrisol($id,$usuario,$peso);
         echo json_encode($crisol);
     }
+
+    public function ajaxInhabilitarCrisol($id,$usuario){
+        $crisol = CrisolControlador::ctlInhabilitarCrisol($id,$usuario);
+        // echo json_encode(array("hello"=>"alo"));
+        echo json_encode($crisol);
+    }
 }
 
 
@@ -34,6 +40,9 @@ if(isset($_POST['accion']) && $_POST['accion'] == 1){
         $actualizarCrisol->ajaxActualizarCrisol($_POST['id'], $_POST['usuario'], 0);
     }
     
+}elseif(isset($_POST['accion']) && $_POST['accion'] == 4 && $_POST['crisol'] && $_POST['usuario']){
+    $actualizarCrisol = new AjaxCrisol();
+    $actualizarCrisol->ajaxInhabilitarCrisol($_POST['crisol'],$_POST['usuario']);
 }
 
 

@@ -121,7 +121,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <h1>Administrador</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Administrador</a></li>
+          <li class="breadcrumb-item"><a href="index.php">Administrador</a></li>
           <li class="breadcrumb-item active">Crear usuario</li>
         </ol>
       </nav>
