@@ -7,10 +7,13 @@ session_start();
 use Dompdf\Dompdf;
 define("DOMPDF_ENABLE_REMOTE", false);
     
-    $resultado = ProcesoControlador::ctrFiltrarProceso($_POST['crisol'],$_POST['fecha_inicio_min'],$_POST['fecha_inicio_max'],$_POST['fecha_fin_min'],$_POST['fecha_fin_max'],$_POST['estado'],$_POST['peso_inicial_min'],$_POST['peso_inicial_max'],$_POST['peso_final_min'],$_POST['peso_final_max']);
+    // $resultado = ProcesoControlador::ctrFiltrarProceso($_POST['crisol'],$_POST['fecha_inicio_min'],$_POST['fecha_inicio_max'],$_POST['fecha_fin_min'],$_POST['fecha_fin_max'],$_POST['estado'],$_POST['peso_inicial_min'],$_POST['peso_inicial_max'],$_POST['peso_final_min'],$_POST['peso_final_max']);
+    $resultado = ProcesoControlador::ctrFiltrarProceso($_POST['crisol'],'','','','','','','','','');
+
     $date = date('m/d/Y', time());
     $rootdir = $_SERVER["DOCUMENT_ROOT"];
     // print_r($resultado);
+
 
     $html= '<style>
     .header{
@@ -96,6 +99,7 @@ define("DOMPDF_ENABLE_REMOTE", false);
    padding:5px;
 }
     </style>
+    
 
         <table style='border-collapse: collapse; 
     border:1px solid #69899F;'>
@@ -137,7 +141,7 @@ define("DOMPDF_ENABLE_REMOTE", false);
             <tr>
                 <td> $result[1] </td>
                 <td> $result[0] </td>
-                <td> $result[2] </td>
+                <td> $result[16] </td>
                 <td> $result[3] </td>
                 <td> $estado </td>
                 <td> $etapa </td>

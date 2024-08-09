@@ -103,7 +103,7 @@
         rules:{
             nombre: {
                 required: true,
-                lettersonly: true,
+                // lettersonly: true,
                 minlength: 3,  // <- here
                 maxlength: 20,
             },

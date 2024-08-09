@@ -430,14 +430,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             let peso = $('#postmantenimiento_input').val()
 
+            if($('#postmantenimiento_input').val() < 7000){
+                toastr.error('El peso no puede ser inferior a 7000kg', 'Error')
+
+                return 
+            }
+
             // console.log(peso, 'aqui111')
 
             if( Number($(' [data-estado-etapa="postmantenimiento"] span#post_mantenimiento').text()) >  (Number($('[data-estado-etapa="postmantenimiento"]  span.peso_inicial').text()) + 500 )){
                 toastr.error('El crisol debe permanecer en mantenimiento hasta tener un peso inferior', 'Error')
 
                 return 
-
             }
+
+            
 
             if(esSoloNumeroYFraccion.test(peso) == false){
                 toastr.error('Solo se permiten numeros enteros o fracciones con punto ej: 1000.5', 'Error')

@@ -29,7 +29,8 @@ class ProcesoModelo{
 
 
         if(count($donde)){
-            $sql = 'SELECT * FROM proceso WHERE '.implode(' AND ',$donde);
+            // $sql = 'SELECT * FROM proceso WHERE '.implode(' AND ',$donde);
+            $sql = 'SELECT *, pe.etapa as et from proceso LEFT JOIN proceso_etapa pe ON proceso.id_proceso = pe.id_proceso WHERE pe.etapa ="m" AND '.implode(' AND ',$donde);
             $stmt = Conexion::conectar()->prepare($sql);
             if($crisol != '') $stmt->bindParam(":crisol", $crisol, PDO::PARAM_STR);
             if($fecha_inicio_min != '') $stmt->bindParam(":fecha_inicio_min", $fecha_inicio_min, PDO::PARAM_STR);

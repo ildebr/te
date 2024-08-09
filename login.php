@@ -3,12 +3,12 @@
     session_start();
     $error = "";
     if($_SERVER['REQUEST_METHOD'] == "POST"){
-        $correo = $_POST['correo'];
+        $cedula = $_POST['cedula'];
         $clave = hash('sha1',$_POST['clave']);
         // $clave = password_hash($_POST["clave"], PASSWORD_DEFAULT);
         // se busca el usuario cuyas credenciales coincida con las ingresadas de no existir se retorna error
         // $query = "SELECT id, nombre, correo, apellido, rol FROM usuario WHERE cedula='$correo' && contrasena = '$clave'";
-        $query = "SELECT id, nombre, correo, apellido, rol, contrasena FROM usuario WHERE cedula='$correo' AND contrasena= '$clave'";
+        $query = "SELECT id, nombre, correo, apellido, rol, contrasena FROM usuario WHERE cedula='$cedula' AND contrasena= '$clave'";
         $res = mysqli_query($dbconexion, $query) or trigger_error("failed".mysqli_error($dbconexion), E_USER_ERROR);
         if (mysqli_num_rows($res) > 0){
             
@@ -46,7 +46,15 @@
         text-align: center;
         margin-top: 1rem;
       }
+      .error{
+        color:red;
+      }
     </style>
+    <!-- jQuery -->
+    <script src="vistas/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Validacion -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
 </head>
 <body>
 <main class="login">
@@ -68,10 +76,10 @@
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 mt-6">
-        <form  method="POST">
+        <form id="login-form"  method="POST">
           <!-- Email input -->
           <div data-mdb-input-init class="form-outline mb-4">
-            <input type="text"  name="correo" id="form3Example3" class="form-control form-control-lg"
+            <input type="text"  name="cedula" id="form3Example3" class="form-control form-control-lg"
               placeholder="Ingresa una cedula valida" />
             <label class="form-label" for="form3Example3">Cedula</label>
           </div>
@@ -103,6 +111,29 @@
     </div>
   </div>
 </section>
+
+<script>
+  $('#login-form').validate({
+    rules:{
+      cedula: {
+        required: true,
+        digits: true
+      },
+      clave: {
+        required: true
+      }
+    },
+    messages: {
+      cedula:{
+        required: "Este campo es obligatorio",
+        digits: "Solo cedulas validas"
+      },
+      clave:{
+        required: "Este campo es obligatorio"
+      }
+    }
+  })
+</script>
     
 </body>
 </html>
